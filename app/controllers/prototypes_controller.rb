@@ -33,8 +33,11 @@ class PrototypesController < ApplicationController
   def update
       prototype = Prototype.find(params[:id])
       prototype.update(prototype_params)
-      redirect_to prototype_path(params[:id])
-      # render :edit
+      if prototype.save
+        redirect_to prototype_path(params[:id])
+      else
+        render :edit
+      end
   end
 
   def destroy
@@ -51,7 +54,7 @@ class PrototypesController < ApplicationController
   def set_prototype
     @prototype = Prototype.find(params[:id])
   end
-  
+
   def move_to_index
     redirect_to root_path unless current_user == @prototype.user
   end
